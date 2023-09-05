@@ -9,6 +9,8 @@ const autoprefixer = require("autoprefixer");
 // Imagenes
 
 const imagemin = require("gulp-imagemin");
+const webp = require("gulp-webp");
+const avif = require("gulp-avif");
 
 function css(done) {
   // Compilar sass
@@ -28,6 +30,24 @@ function imagenes() {
     .pipe(dest("build/img"));
 }
 
+function versionWebp() {
+  const opciones = {
+    quality: 50,
+  };
+  return src("src/img/**/*.{png,jpg}")
+    .pipe(webp(opciones))
+    .pipe(dest("build/img"));
+}
+
+function versionavif() {
+  const opciones = {
+    quality: 50,
+  };
+  return src("src/img/**/*.{png,jpg}")
+    .pipe(avif(opciones))
+    .pipe(dest("build/img"));
+}
+
 function dev() {
   watch("src/scss/**/*.scss", css);
   watch("src/img/**/*", imagenes);
@@ -36,7 +56,9 @@ function dev() {
 exports.css = css;
 exports.dev = dev;
 exports.imagenes = imagenes;
-exports.default = series(imagenes, css, dev);
+exports.versionWebp = versionWebp;
+exports.versionavif = versionavif;
+exports.default = series(imagenes, versionWebp, versionavif, css, dev);
 
 // series: se inicia una tarea y hasta que finaliza, inicia la siguiente
 
