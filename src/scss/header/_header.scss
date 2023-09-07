@@ -5,10 +5,6 @@
   padding: 5rem 0;
   position: relative;
 
-  @include m.telefono {
-    padding: 2rem 0;
-  }
-
   &::before {
     content: "";
     background-color: v.$negro;
